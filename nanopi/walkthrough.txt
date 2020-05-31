@@ -1,0 +1,33 @@
+flag 1
+- port 443 site mentions robots.txt hint
+- view robots.txt
+- see index.php
+- load index.php
+- view source index.php
+- notice encoded string (base64, copy/paste in cyberchef for example; or echo "string"|base64 -d)
+- encoded string is path to flag
+- go to path
+- get flag 
+
+
+flag2
+- notice php is being used for site
+- notice dynamic inclusion of php pages based on url
+- use php://filter/convert.base64-encode/resource= hack to get base64 source of php files
+- notice that some notes are hidden and require a GET parameter to view them
+- read hidden notes
+- notice note that contains encoded content
+- notice content is hex (copy/paste in cyberchef for example)
+- encoded string is path to flag
+- go to path
+- get flag
+
+
+flag3
+- notice that login form is vuln to SQL injection on username (either by breaking output on form submit or reading source from flag2 step)
+- use sql injection to dump database (sqlmap)
+- notice flag table exists
+- flag table has a single row 
+- row contains path to flag (it is not encoded)
+- go to path
+- get flag

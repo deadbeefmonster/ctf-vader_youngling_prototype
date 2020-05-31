@@ -1,12 +1,8 @@
-* Write intended path from easy flag to hard flag
-* Provision resources
 
 === LOAD ===
-** MySQL - tables
 **** AES encryption: key in web app
 
 === WWW ===
-** vuln web app: php file inclusion, read php source, reverse shell, database creds
 **** user accounts, shell, mysql client, netcat
 
 === ADMIN ===

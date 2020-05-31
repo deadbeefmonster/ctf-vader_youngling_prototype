@@ -1,0 +1,60 @@
+
+digraph VaderIPs {
+
+internet [
+	  shape=plaintext
+	  label=<
+	  <table border='1' cellborder='1'>
+	  <tr><td>Internet</td></tr>
+	  </table>
+	  >];
+load [
+      shape=plaintext
+      label=<
+      <table border='1' cellborder='1'>
+      <tr><td colspan='2'>load.controller.empire</td></tr>
+      <tr><td port='port_one'>10.19.19.2</td><td port='port_two'>10.94.94.10</td></tr>
+      </table>
+      >];
+www [
+     shape=plaintext
+     label=<
+     <table border='1' cellborder='1'>
+     <tr><td colspan='2'>www.controller.empire</td></tr>
+     <tr><td port='port_one'>10.19.19.3</td><td port='port_two'>10.91.91.2</td></tr>
+     </table>
+     >];
+data [
+      shape=plaintext
+      label=<
+      <table border='1' cellborder='1'>
+      <tr><td colspan='2'>data.controller.empire</td></tr>
+      <tr><td port='port_one'>10.91.91.22</td><td port='port_two'>10.92.92.40</td></tr>
+      </table>
+      >];
+admin [
+       shape=plaintext
+       label=<
+       <table border='1' cellborder='1'>
+       <tr><td colspan='3'>admin.controller.empire</td></tr>
+       <tr><td port='port_one'>10.92.92.50</td><td port='port_two'>10.93.93.100</td><td port='port_three'>10.94.94.20</td></tr>
+       </table>
+       >];
+core [
+      shape=plaintext
+      label=<
+      <table border='1' cellborder='1'>
+      <tr><td>core.controller.empire</td></tr>
+      <tr><td>10.93.93.20</td></tr>
+      </table>
+      >];
+
+
+internet -> load [label="tcp:443", color="red"];
+load:port_one -> www:port_one [label="tcp:443", color="red"];
+load:port_two -> admin:port_three [label="tcp:443", color="red"];
+www:port_two -> data:port_one [label="tcp:3306", color="red"];
+admin:port_two -> core [label="tcp:22", color="red"];
+admin:port_one -> data:port_two [label="tcp:3306", color="red"];
+
+	}

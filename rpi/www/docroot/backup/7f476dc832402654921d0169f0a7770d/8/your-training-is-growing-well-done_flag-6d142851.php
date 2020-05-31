@@ -1,0 +1,1 @@
+<pre><?php echo file_get_contents("your-training-is-growing-well-done_flag-6d142851.txt") ?></pre>

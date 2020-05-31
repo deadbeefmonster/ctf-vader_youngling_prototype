@@ -1,0 +1,131 @@
+version: '2'
+
+services:
+    load:
+        hostname: load.controller.empire
+        container_name: vader_load
+        restart: always
+        build:
+            context: ./load
+        ports:
+            - "443:443"
+            - "1936:1936"
+        links:
+            - www
+            - admin
+        networks:
+            subnet-public1: #internet
+                ipv4_address: 10.19.19.2
+            subnet-private4:
+                ipv4_address: 10.94.94.10
+        extra_hosts:
+          - "load.controller.empire:10.19.19.2"
+          - "www.controller.empire:10.19.19.3"
+          - "admin.controller.empire:10.94.94.20"
+
+    www:
+        hostname: www.controller.empire
+        container_name: vader_www
+        restart: always    
+        build: 
+            context: ./www
+        volumes:
+            - ./www/docroot:/var/www/docroot
+        links:
+            - data
+        networks:
+            subnet-public1: #load
+                ipv4_address: 10.19.19.3
+            subnet-private1: #data
+                ipv4_address: 10.91.91.2
+        extra_hosts:
+          - "load.controller.empire:10.19.19.2"
+          - "www.controller.empire:10.91.91.2"
+          - "data.controller.empire:10.91.91.22"
+    data:
+        hostname: data.controller.empire
+        container_name: vader_data
+        restart: always    
+        build: 
+            context: ./data
+        #restart: always
+        volumes:
+            - ./volumes/_var_lib_mysql:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: "alderaan-lol"
+            MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+        networks:
+            subnet-private1: #www
+                ipv4_address: 10.91.91.22
+            subnet-private2: #admin
+                ipv4_address: 10.92.92.40
+        extra_hosts:
+          - "www.controller.empire:10.91.91.2"
+          - "data.controller.empire:10.91.91.22"
+          - "admin.controller.empire:10.92.92.50"
+    admin:
+        hostname: admin.controller.empire
+        container_name: vader_admin
+        restart: always
+        build: 
+            context: ./admin
+        volumes:
+            - ./admin/docroot:/var/www/docroot
+        networks:
+            subnet-private2: #data
+                ipv4_address: 10.92.92.50
+            subnet-private3: #core
+                ipv4_address: 10.93.93.100
+            subnet-private4: #load
+                ipv4_address: 10.94.94.20
+        extra_hosts:
+          - "load.controller.empire:10.94.94.10"
+          - "data.controller.empire:10.92.92.40"
+          - "admin.controller.empire:10.94.94.20"
+          - "core.controller.empire:10.93.93.20"
+    core:
+        hostname: core.controller.empire
+        container_name: vader_core
+        restart: always    
+        links:
+          - 'admin'
+        build:
+            context: ./core
+        networks:
+            subnet-private3: #admin
+                ipv4_address: 10.93.93.20
+        extra_hosts:
+          - "admin.controller.empire:10.93.93.100"
+          - "core.controller.empire:10.93.93.20"
+networks:
+
+    subnet-public1:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: 10.19.19.0/24
+    subnet-private1:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: 10.91.91.0/24
+    subnet-private2:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: 10.92.92.0/24
+    subnet-private3:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: 10.93.93.0/24
+    subnet-private4:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: 10.94.94.0/24

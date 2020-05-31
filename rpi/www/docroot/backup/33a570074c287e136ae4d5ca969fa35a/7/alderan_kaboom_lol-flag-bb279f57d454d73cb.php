@@ -1,0 +1,1 @@
+<pre><?php echo file_get_contents("alderan_kaboom_lol-flag-bb279f57d454d73cb.txt"); ?></pre>

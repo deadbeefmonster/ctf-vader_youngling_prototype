@@ -1,0 +1,20 @@
+* Write intended path from easy flag to hard flag
+* Provision resources
+
+=== LOAD ===
+** MySQL - tables
+**** AES encryption: key in web app
+
+=== WWW ===
+** vuln web app: php file inclusion, read php source, reverse shell, database creds
+**** user accounts, shell, mysql client, netcat
+
+=== ADMIN ===
+** vuln web app: SQL injection, leaks login to CORE
+
+=== CORE ===
+** SSH: user accounts, tcsh, sudo, gtfobin, suid binaries
+**** user priv escalation to root
+
+
+

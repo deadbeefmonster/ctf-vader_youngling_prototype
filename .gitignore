@@ -1,4 +1,3 @@
-rpi/volumes/_var_lib_mysql/**
-x86/volumes/_var_lib_mysql/**
+nanopi/volumes/_var_lib_mysql/**
 
 
